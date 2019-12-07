@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "strictNullChecks": false,
+    "esModuleInterop": false,
+    "baseUrl": "./",
+    "rootDir": "./src",
+    "outDir": "./build",
+    "removeComments": true,
+    "target": "es6",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "types": ["node"],
+    "typeRoots": ["node_modules/@types"],
+    "paths": {
+      "@app/*": ["./src/*"],
+      "@project-root/*": ["./*"]
+    }
+  },
+  "include": ["./src/**/*.ts"],
+  "exclude": ["./src/public/"]
+}

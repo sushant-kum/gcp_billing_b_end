@@ -1,0 +1,46 @@
+name: '[CI] On Release Creation'
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Install npm dependencies
+        run: npm install
+      - name: Create Build
+        run: npm run build
+      - name: Removing ./node_modules
+        run: rm -r ./node_modules
+      - name: Archive Production Artifact
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: dist
+          path: ./
+
+  deploy:
+    name: Deploy
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Placeholder
+        run: echo "Not releasing currently"
+      # - name: Checkout Repo
+      #   uses: actions/checkout@master
+      # - name: Download Artifact
+      #   uses: actions/download-artifact@v1.0.0
+      #   with:
+      #     name: dist
+      # - name: Move content out of dist
+      #   run: cp -r ./dist/* ./ && rm -r ./dist
+      # - name: Deploy to GCloud
+      #   uses: actions-hub/gcloud@272.0.0
+      #   with:
+      #     args: app deploy app.yaml
+      #   env:
+      #     PROJECT_ID: ${{ secrets.GCLOUD_PROJECT_ID }}
+      #     APPLICATION_CREDENTIALS: ${{ secrets.GCLOUD_TOKEN }}

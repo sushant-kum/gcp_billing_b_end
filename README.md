@@ -1,1 +1,3 @@
-# gcp_billing_b_end
+# gcp-billing-bend
+
+Back end for GCP billing dashboard
