@@ -1,3 +1,8 @@
 {
-  "recommendations": ["esbenp.prettier-vscode", "ms-vscode.vscode-typescript-tslint-plugin", "dbaeumer.vscode-eslint"]
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "ms-vscode.vscode-typescript-tslint-plugin",
+    "dbaeumer.vscode-eslint",
+    "edwardhjp.vscode-author-generator"
+  ]
 }

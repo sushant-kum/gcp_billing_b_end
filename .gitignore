@@ -46,4 +46,7 @@ yarn.lock
 .bak/**/*
 
 # Others
+.meta/
+.meta/**/*
 version-info.json
+account.json

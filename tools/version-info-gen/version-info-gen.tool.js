@@ -1,8 +1,21 @@
+/**
+ * @author Sushant Kumar
+ * @email sushant.kum96@gmail.com
+ * @create date 2019-12-08 19:10:20
+ * @modify date 2019-12-08 19:10:20
+ * @desc Tool `version-info-gen`
+ */
+
 const { version, name } = require('../..//package.json');
 const { join, resolve, relative } = require('path');
 const { writeFileSync } = require('fs-extra');
 
-exports.generate = () => {
+/**
+ * Generate version-info.json file
+ *
+ * @author Sushant Kumar <sushant.kum96@gmail.com>
+ */
+function generate() {
   const prod = process.env.NODE_ENV && process.env.NODE_ENV === 'production' ? true : false;
   const version_info = {
     name,
@@ -13,9 +26,9 @@ exports.generate = () => {
 
   let file;
   if (prod) {
-    file = join('/tmp', 'gcp_billing_bend', 'version-info.json');
+    file = join('/tmp', 'gcp_billing_b_end', 'version-info.json');
   } else {
-    file = resolve(__dirname, '..', '..', 'version-info.json');
+    file = resolve(__dirname, '..', '..', '.meta', 'version-info.json');
   }
   writeFileSync(
     file,
@@ -25,4 +38,6 @@ exports.generate = () => {
   );
 
   console.log(`Wrote version info ${version_info.version} to ${relative(resolve('/'), file)}`);
-};
+}
+
+exports.generate = generate;

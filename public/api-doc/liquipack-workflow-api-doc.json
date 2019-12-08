@@ -1,0 +1,1026 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "GCP Billing Dashboard - APIs",
+    "description": "APIs for GCP Billing Dashboard <br /> [Download api document(.yaml)](/api-doc/download/yaml) <br /> [Download api document(.json)](/api-doc/download/json)",
+    "contact": {
+      "email": "sushant.kum96@gmail.com"
+    },
+    "license": {
+      "name": "MIT License",
+      "url": "https://github.com/sushant-kum/gcp_billing_b_end/blob/master/LICENSE"
+    },
+    "version": "0.0.1"
+  },
+  "externalDocs": {
+    "description": "Github Repository",
+    "url": "https://github.com/sushant-kum/gcp_billing_b_end"
+  },
+  "servers": [
+    {
+      "url": "https://api.billing.liquipack.cf/api"
+    },
+    {
+      "url": "http://api.billing.liquipack.cf/api"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "users",
+      "description": "User Management"
+    },
+    {
+      "name": "profile",
+      "description": "Profile Management"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Get list of all users",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/response__get__users"
+          },
+          "403": {
+            "$ref": "#/components/responses/response__403"
+          },
+          "500": {
+            "$ref": "#/components/responses/response__500"
+          }
+        }
+      },
+      "post": {
+        "tags": ["users"],
+        "summary": "Create new user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": ["app_permissions", "email", "name", "password_hash", "username"],
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "description": "username of the user (must be unique)"
+                  },
+                  "password_hash": {
+                    "type": "string",
+                    "description": "MD5 hash of the user's password"
+                  },
+                  "app_permissions": {
+                    "type": "array",
+                    "description": "Identifiers of apps the user has permissions to",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "app": {
+                          "type": "string"
+                        },
+                        "permissions": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "enum": ["read", "write"]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "User's name"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "User's email address"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "description": "User's phone number"
+                  },
+                  "gender": {
+                    "type": "string",
+                    "description": "User's gender",
+                    "enum": ["male", "female", "others"]
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/response__post__users"
+          },
+          "400": {
+            "$ref": "#/components/responses/response__400"
+          },
+          "403": {
+            "$ref": "#/components/responses/response__403"
+          },
+          "500": {
+            "$ref": "#/components/responses/response__500"
+          }
+        }
+      }
+    },
+    "/users/:user_id": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Get user by user_id (ObjectId)",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "_id (ObjectId) of the user object",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/response__get__users__user_id"
+          },
+          "400": {
+            "$ref": "#/components/responses/response__400"
+          },
+          "403": {
+            "$ref": "#/components/responses/response__403"
+          },
+          "500": {
+            "$ref": "#/components/responses/response__500"
+          }
+        }
+      },
+      "put": {
+        "tags": ["users"],
+        "summary": "Modifies user data",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "_id (ObjectId) of the user object",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": ["app_permissions", "email", "name", "password_hash"],
+                "properties": {
+                  "password_hash": {
+                    "type": "string",
+                    "description": "MD5 hash of the user's password"
+                  },
+                  "app_permissions": {
+                    "type": "array",
+                    "description": "Identifiers of apps the user has permissions to",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "app": {
+                          "type": "string"
+                        },
+                        "permissions": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "enum": ["read", "write"]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "User's name"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "User's email address"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "description": "User's phone number"
+                  },
+                  "gender": {
+                    "type": "string",
+                    "description": "User's gender",
+                    "enum": ["male", "female", "others"]
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/response__put__users__user_id"
+          },
+          "400": {
+            "$ref": "#/components/responses/response__400"
+          },
+          "403": {
+            "$ref": "#/components/responses/response__403"
+          },
+          "500": {
+            "$ref": "#/components/responses/response__500"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["users"],
+        "summary": "Delete (permanently) user by user_id (ObjectId)",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "_id (ObjectId) of the user object",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/response__delete__users__user_id"
+          },
+          "400": {
+            "$ref": "#/components/responses/response__400"
+          },
+          "403": {
+            "$ref": "#/components/responses/response__403"
+          },
+          "500": {
+            "$ref": "#/components/responses/response__500"
+          }
+        }
+      }
+    },
+    "/users/:user_id/enable": {
+      "patch": {
+        "tags": ["users"],
+        "summary": "Enable (make active) user by user_id (ObjectId)",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "_id (ObjectId) of the user object",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/response__patch__users__user_id__enable"
+          },
+          "400": {
+            "$ref": "#/components/responses/response__400"
+          },
+          "403": {
+            "$ref": "#/components/responses/response__403"
+          },
+          "500": {
+            "$ref": "#/components/responses/response__500"
+          }
+        }
+      }
+    },
+    "/users/:user_id/disable": {
+      "patch": {
+        "tags": ["users"],
+        "summary": "Disable (make inactive) user by user_id (ObjectId)",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "_id (ObjectId) of the user object",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/response__patch__users__user_id__disable"
+          },
+          "400": {
+            "$ref": "#/components/responses/response__400"
+          },
+          "403": {
+            "$ref": "#/components/responses/response__403"
+          },
+          "500": {
+            "$ref": "#/components/responses/response__500"
+          }
+        }
+      }
+    },
+    "/profile/:user_id": {
+      "get": {
+        "tags": ["profile"],
+        "summary": "Get user by user_id (ObjectId)",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "_id (ObjectId) of the user object",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/response__get__profile__user_id"
+          },
+          "403": {
+            "$ref": "#/components/responses/response__403"
+          },
+          "500": {
+            "$ref": "#/components/responses/response__500"
+          }
+        }
+      },
+      "put": {
+        "tags": ["profile"],
+        "summary": "Modifies user data",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "_id (ObjectId) of the user object",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": ["email", "name", "password_hash"],
+                "properties": {
+                  "password_hash": {
+                    "type": "string",
+                    "description": "MD5 hash of the user's password"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "User's name"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "User's email address"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "description": "User's phone number"
+                  },
+                  "gender": {
+                    "type": "string",
+                    "description": "User's gender",
+                    "enum": ["male", "female", "others"]
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/response__put__profile__user_id"
+          },
+          "400": {
+            "$ref": "#/components/responses/response__400"
+          },
+          "403": {
+            "$ref": "#/components/responses/response__403"
+          },
+          "500": {
+            "$ref": "#/components/responses/response__500"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password_hash": {
+            "type": "string"
+          },
+          "app_permissions": {
+            "$ref": "#/components/schemas/AppPermissions"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "gender": {
+            "type": "string",
+            "enum": ["male", "female", "others"]
+          },
+          "created_date": {
+            "type": "string"
+          },
+          "is_active": {
+            "type": "boolean"
+          },
+          "__v": {
+            "type": "number"
+          }
+        },
+        "example": {
+          "app_permissions": [],
+          "is_active": true,
+          "_id": "5cb6b7e66867672114c6f4d6",
+          "created_date": "2019-04-17T05:21:42.104Z",
+          "username": "admin",
+          "password_hash": "21232f297a57a5a743894a0e4a801fc3",
+          "name": "Sushant Kumar",
+          "gender": "male",
+          "email": "sushant.kum96@gmail.com",
+          "phone": "9740895495",
+          "__v": 0
+        }
+      },
+      "AppPermissions": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "app": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "permissions": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["read", "write"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "response__get__users": {
+        "description": "status: success",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                },
+                "user_id": {
+                  "type": "string"
+                },
+                "token": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "success",
+                "message": "Users retrieved successfully",
+                "data": [
+                  {
+                    "is_active": true,
+                    "_id": "5cb8c5baf318582239f7c8a6",
+                    "app_permissions": [],
+                    "created_date": "2019-04-18T18:45:14.630Z",
+                    "username": "admin",
+                    "password_hash": "21232f297a57a5a743894a0e4a801fc3",
+                    "name": "Sushant Kumar",
+                    "gender": "male",
+                    "email": "sushant.kum96@gmail.com",
+                    "phone": "9740895495",
+                    "__v": 0
+                  }
+                ],
+                "user_id": "5cbb5d71f3cb256e348e9a56",
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwidXVpZCI6IjlmYzU1OTdmLWIzODctNGE5ZC1hZTNhLTg5NWU3ZTIzMWU4ZSIsImlhdCI6MTU2NDY1MTE3MCwiZXhwIjoxNTY0OTEwMzcwfQ.RXJBRPyKXWsXQ_CKmPqNBCypyDpD2q8SiF8XSPJk2Z0"
+              }
+            }
+          }
+        }
+      },
+      "response__post__users": {
+        "description": "status: success",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "user_id": {
+                  "type": "string"
+                },
+                "token": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "success",
+                "message": "User created successfully",
+                "data": {
+                  "is_active": true,
+                  "_id": "5cb8c5baf318582239f7c8a6",
+                  "app_permissions": [],
+                  "created_date": "2019-04-18T18:45:14.630Z",
+                  "username": "admin",
+                  "password_hash": "21232f297a57a5a743894a0e4a801fc3",
+                  "name": "Sushant Kumar",
+                  "gender": "male",
+                  "email": "sushant.kum96@gmail.com",
+                  "phone": "9740895495",
+                  "__v": 0
+                },
+                "user_id": "5cbb5d71f3cb256e348e9a56",
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwidXVpZCI6IjlmYzU1OTdmLWIzODctNGE5ZC1hZTNhLTg5NWU3ZTIzMWU4ZSIsImlhdCI6MTU2NDY1MTE3MCwiZXhwIjoxNTY0OTEwMzcwfQ.RXJBRPyKXWsXQ_CKmPqNBCypyDpD2q8SiF8XSPJk2Z0"
+              }
+            }
+          }
+        }
+      },
+      "response__get__users__user_id": {
+        "description": "status: success",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "user_id": {
+                  "type": "string"
+                },
+                "token": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "success",
+                "message": "User retrieved successfully",
+                "data": {
+                  "is_active": true,
+                  "_id": "5cb8c5baf318582239f7c8a6",
+                  "app_permissions": [],
+                  "created_date": "2019-04-18T18:45:14.630Z",
+                  "username": "admin",
+                  "password_hash": "21232f297a57a5a743894a0e4a801fc3",
+                  "name": "Sushant Kumar",
+                  "gender": "male",
+                  "email": "sushant.kum96@gmail.com",
+                  "phone": "9740895495",
+                  "__v": 0
+                },
+                "user_id": "5cbb5d71f3cb256e348e9a56",
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwidXVpZCI6IjlmYzU1OTdmLWIzODctNGE5ZC1hZTNhLTg5NWU3ZTIzMWU4ZSIsImlhdCI6MTU2NDY1MTE3MCwiZXhwIjoxNTY0OTEwMzcwfQ.RXJBRPyKXWsXQ_CKmPqNBCypyDpD2q8SiF8XSPJk2Z0"
+              }
+            }
+          }
+        }
+      },
+      "response__put__users__user_id": {
+        "description": "status: success",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "user_id": {
+                  "type": "string"
+                },
+                "token": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "success",
+                "message": "User info updated successfully",
+                "data": {
+                  "is_active": true,
+                  "_id": "5cb8c5baf318582239f7c8a6",
+                  "app_permissions": [],
+                  "created_date": "2019-04-18T18:45:14.630Z",
+                  "username": "admin",
+                  "password_hash": "21232f297a57a5a743894a0e4a801fc3",
+                  "name": "Sushant",
+                  "gender": "male",
+                  "email": "sushant.kum96@gmail.com",
+                  "phone": "9740895495",
+                  "__v": 0
+                },
+                "user_id": "5cbb5d71f3cb256e348e9a56",
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwidXVpZCI6IjlmYzU1OTdmLWIzODctNGE5ZC1hZTNhLTg5NWU3ZTIzMWU4ZSIsImlhdCI6MTU2NDY1MTE3MCwiZXhwIjoxNTY0OTEwMzcwfQ.RXJBRPyKXWsXQ_CKmPqNBCypyDpD2q8SiF8XSPJk2Z0"
+              }
+            }
+          }
+        }
+      },
+      "response__delete__users__user_id": {
+        "description": "status: success",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "deletedCount": {
+                      "type": "number"
+                    },
+                    "ok": {
+                      "type": "number"
+                    },
+                    "n": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "user_id": {
+                  "type": "string"
+                },
+                "token": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "success",
+                "message": "User deleted permanently",
+                "data": {
+                  "n": 1,
+                  "ok": 1,
+                  "deletedCount": 1
+                },
+                "user_id": "5cbb5d71f3cb256e348e9a56",
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwidXVpZCI6Ijc0Y2I2NjE1LWRjOWYtNGI4Yi1hMTI0LWIxOWMwNmViZTg4MyIsImlhdCI6MTU2NjU1MDQ3MiwiZXhwIjoxNTY2ODA5NjcyfQ.sXTH_AG5EjvKc6JNLunKJV7puzoElX4OAWTTwSAznsc"
+              }
+            }
+          }
+        }
+      },
+      "response__patch__users__user_id__disable": {
+        "description": "status: success",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "user_id": {
+                  "type": "string"
+                },
+                "token": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "success",
+                "message": "User made inactive",
+                "data": {
+                  "is_active": false,
+                  "_id": "5cb8c5baf318582239f7c8a6",
+                  "app_permissions": [],
+                  "created_date": "2019-04-18T18:45:14.630Z",
+                  "username": "admin",
+                  "password_hash": "21232f297a57a5a743894a0e4a801fc3",
+                  "name": "Sushant",
+                  "gender": "male",
+                  "email": "sushant.kum96@gmail.com",
+                  "phone": "9740895495",
+                  "__v": 0
+                },
+                "user_id": "5cbb5d71f3cb256e348e9a56",
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwidXVpZCI6IjlmYzU1OTdmLWIzODctNGE5ZC1hZTNhLTg5NWU3ZTIzMWU4ZSIsImlhdCI6MTU2NDY1MTE3MCwiZXhwIjoxNTY0OTEwMzcwfQ.RXJBRPyKXWsXQ_CKmPqNBCypyDpD2q8SiF8XSPJk2Z0"
+              }
+            }
+          }
+        }
+      },
+      "response__patch__users__user_id__enable": {
+        "description": "status: success",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "user_id": {
+                  "type": "string"
+                },
+                "token": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "success",
+                "message": "User made active",
+                "data": {
+                  "is_active": true,
+                  "_id": "5cb8c5baf318582239f7c8a6",
+                  "app_permissions": [],
+                  "created_date": "2019-04-18T18:45:14.630Z",
+                  "username": "admin",
+                  "password_hash": "21232f297a57a5a743894a0e4a801fc3",
+                  "name": "Sushant",
+                  "gender": "male",
+                  "email": "sushant.kum96@gmail.com",
+                  "phone": "9740895495",
+                  "__v": 0
+                },
+                "user_id": "5cbb5d71f3cb256e348e9a56",
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwidXVpZCI6IjlmYzU1OTdmLWIzODctNGE5ZC1hZTNhLTg5NWU3ZTIzMWU4ZSIsImlhdCI6MTU2NDY1MTE3MCwiZXhwIjoxNTY0OTEwMzcwfQ.RXJBRPyKXWsXQ_CKmPqNBCypyDpD2q8SiF8XSPJk2Z0"
+              }
+            }
+          }
+        }
+      },
+      "response__get__profile__user_id": {
+        "description": "status: success",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "user_id": {
+                  "type": "string"
+                },
+                "token": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "success",
+                "message": "Profile retrieved successfully",
+                "data": {
+                  "is_active": true,
+                  "_id": "5cb8c5baf318582239f7c8a6",
+                  "app_permissions": [],
+                  "created_date": "2019-04-18T18:45:14.630Z",
+                  "username": "admin",
+                  "password_hash": "21232f297a57a5a743894a0e4a801fc3",
+                  "name": "Sushant Kumar",
+                  "gender": "male",
+                  "email": "sushant.kum96@gmail.com",
+                  "phone": "9740895495",
+                  "__v": 0
+                },
+                "user_id": "5cbb5d71f3cb256e348e9a56",
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwidXVpZCI6IjlmYzU1OTdmLWIzODctNGE5ZC1hZTNhLTg5NWU3ZTIzMWU4ZSIsImlhdCI6MTU2NDY1MTE3MCwiZXhwIjoxNTY0OTEwMzcwfQ.RXJBRPyKXWsXQ_CKmPqNBCypyDpD2q8SiF8XSPJk2Z0"
+              }
+            }
+          }
+        }
+      },
+      "response__put__profile__user_id": {
+        "description": "status: success",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "data": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "user_id": {
+                  "type": "string"
+                },
+                "token": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "success",
+                "message": "User profile updated successfully",
+                "data": {
+                  "is_active": true,
+                  "_id": "5cb8c5baf318582239f7c8a6",
+                  "app_permissions": [],
+                  "created_date": "2019-04-18T18:45:14.630Z",
+                  "username": "admin",
+                  "password_hash": "21232f297a57a5a743894a0e4a801fc3",
+                  "name": "Sushant",
+                  "gender": "male",
+                  "email": "sushant.kum96@gmail.com",
+                  "phone": "9740895495",
+                  "__v": 0
+                },
+                "user_id": "5cbb5d71f3cb256e348e9a56",
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwidXVpZCI6IjlmYzU1OTdmLWIzODctNGE5ZC1hZTNhLTg5NWU3ZTIzMWU4ZSIsImlhdCI6MTU2NDY1MTE3MCwiZXhwIjoxNTY0OTEwMzcwfQ.RXJBRPyKXWsXQ_CKmPqNBCypyDpD2q8SiF8XSPJk2Z0"
+              }
+            }
+          }
+        }
+      },
+      "response__400": {
+        "description": "status: invalid_request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "user_id": {
+                  "type": "string"
+                },
+                "token": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "invalid_request",
+                "message": "Invalid arguments.",
+                "user_id": "5cbb5d71f3cb256e348e9a5",
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwidXVpZCI6ImY1MGU3OGY0LTE4YzctNDNjYS05YjllLTcyNjg4Yzg3YmJmZSIsImlhdCI6MTU2NDY0NDA2NiwiZXhwIjoxNTY0OTAzMjY2fQ.iJezSC_Wg05pWdqqKhsLW4IdVS1qQEfLuc8ymvlfTQY"
+              }
+            }
+          }
+        }
+      },
+      "response__403": {
+        "description": "status: access_denied",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "user_id": {
+                  "type": "string"
+                },
+                "token": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "access_denied",
+                "message": "Access to this operation is denied",
+                "user_id": "5cbb5d71f3cb256e348e9a5",
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwidXVpZCI6ImY1MGU3OGY0LTE4YzctNDNjYS05YjllLTcyNjg4Yzg3YmJmZSIsImlhdCI6MTU2NDY0NDA2NiwiZXhwIjoxNTY0OTAzMjY2fQ.iJezSC_Wg05pWdqqKhsLW4IdVS1qQEfLuc8ymvlfTQY"
+              }
+            }
+          }
+        }
+      },
+      "response__500": {
+        "description": "status: error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "user_id": {
+                  "type": "string"
+                },
+                "token": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "error",
+                "message": "<System Error>",
+                "user_id": "5cbb5d71f3cb256e348e9a5",
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwidXVpZCI6ImY1MGU3OGY0LTE4YzctNDNjYS05YjllLTcyNjg4Yzg3YmJmZSIsImlhdCI6MTU2NDY0NDA2NiwiZXhwIjoxNTY0OTAzMjY2fQ.iJezSC_Wg05pWdqqKhsLW4IdVS1qQEfLuc8ymvlfTQY"
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
