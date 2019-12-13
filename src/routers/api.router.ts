@@ -25,6 +25,9 @@ import * as _delete__users__user_id from '@app/handlers/DELETE/users/{user_id}/d
 import * as _patch__users__user_id__disable from '@app/handlers/PATCH/users/{user_id}/disable/patch__users__{user_id}__disable.handler';
 import * as _patch__users__user_id__enable from '@app/handlers/PATCH/users/{user_id}/enable/patch__users__{user_id}__enable.handler';
 
+// GCP Billing Entries handler imports
+import * as _get__gcp_billing_entries__import from '@app/handlers/GET/gcp-billing-entries/import/get__gcp-billing-entries__import.handler';
+
 router.get('/', (req: Request, res: Response) => {
   res.json({
     status: 'success',
@@ -80,5 +83,10 @@ router
   .route('/users/:user_id/disable')
   .patch(AuthController.isJWTAuthenticated, _patch__users__user_id__disable.handler);
 router.route('/users/:user_id/enable').patch(AuthController.isJWTAuthenticated, _patch__users__user_id__enable.handler);
+
+// Handle `/api/gcp-billing-entries/...` paths
+router
+  .route('/gcp-billing-entries/import')
+  .get(AuthController.isBasicAuthenticated, _get__gcp_billing_entries__import.handler);
 
 export { router };
