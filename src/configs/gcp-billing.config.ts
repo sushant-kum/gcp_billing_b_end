@@ -6,10 +6,8 @@
  * @desc Contains config for GCP Billing Dat import
  */
 
-export const gcp_config = {
+export const gcp_config_bigquery = {
   project_id: 'liquipack',
-  bucket_name: 'liquipack-billing',
   key_file_path: process.env.NODE_ENV === 'production' ? '/tmp/gcp_billing_b_end/account.json' : '.meta/account.json',
-  report_file_prefix: 'cost-report-',
-  reports_storage_path: process.env.NODE_ENV === 'production' ? '/tmp/gcp_billing_b_end/' : '.meta/'
+  table_name: 'liquipack.gcp_billing.gcp_billing_export_v1_01ABB6_619806_E9487F'
 };
