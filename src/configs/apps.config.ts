@@ -22,7 +22,8 @@ export enum AppNames {
   token = 'token',
   system_users = 'system-users',
   settings_profile = 'settings-profile',
-  users_min = 'users-min'
+  users_min = 'users-min',
+  gcp_billing_entries = 'gcp-billing-entries'
 }
 
 /**
@@ -43,7 +44,8 @@ export const compulsory_apps: AppNames[] = [
   AppNames.login,
   AppNames.token,
   AppNames.settings_profile,
-  AppNames.users_min
+  AppNames.users_min,
+  AppNames.gcp_billing_entries
 ];
 
 export const compulsory_app_permissions: { [key: string]: AppPermissions[] } = {};
@@ -51,3 +53,4 @@ compulsory_app_permissions[AppNames.login] = [AppPermissions.read, AppPermission
 compulsory_app_permissions[AppNames.token] = [AppPermissions.read, AppPermissions.write];
 compulsory_app_permissions[AppNames.settings_profile] = [AppPermissions.read, AppPermissions.write];
 compulsory_app_permissions[AppNames.users_min] = [AppPermissions.read];
+compulsory_app_permissions[AppNames.gcp_billing_entries] = [AppPermissions.read];
