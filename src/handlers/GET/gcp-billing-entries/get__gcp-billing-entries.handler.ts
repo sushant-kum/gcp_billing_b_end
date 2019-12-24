@@ -92,6 +92,10 @@ export function handler(req: any, res: Response): Response {
               job[0]
                 .getQueryResults()
                 .then((rows: any) => {
+                  for (const row of rows[0]) {
+                    row.cost_date = row.cost_date.value;
+                  }
+
                   return res.json({
                     status: 'success',
                     message: 'GCP Billing Entries fetched',
