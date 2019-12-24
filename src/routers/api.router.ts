@@ -27,6 +27,7 @@ import * as _patch__users__user_id__enable from '@app/handlers/PATCH/users/{user
 
 // GCP Billing Entries handler imports
 import * as _get__gcp_billing_entries from '@app/handlers/GET/gcp-billing-entries/get__gcp-billing-entries.handler';
+import * as _get__gcp_billing_entries__cost from '@app/handlers/GET/gcp-billing-entries/cost/get__gcp-billing-entries__cost.handler';
 
 router.get('/', (req: Request, res: Response) => {
   res.json({
@@ -86,5 +87,8 @@ router.route('/users/:user_id/enable').patch(AuthController.isJWTAuthenticated, 
 
 // Handle `/api/gcp-billing-entries/...` paths
 router.route('/gcp-billing-entries').get(AuthController.isJWTAuthenticated, _get__gcp_billing_entries.handler);
+router
+  .route('/gcp-billing-entries/cost')
+  .get(AuthController.isJWTAuthenticated, _get__gcp_billing_entries__cost.handler);
 
 export { router };
