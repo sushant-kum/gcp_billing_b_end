@@ -52,9 +52,9 @@ export function handler(req: any, res: Response): Response {
                 query = `
                 SELECT * FROM
                 (
-                  SELECT service.description AS service_description, sku.description AS sku_description, SUM(cost) AS cost_sum, currency, CAST(usage_start_time AS DATE) as cost_date
+                  SELECT service.description AS service_description, sku.description AS sku_description, SUM(cost) AS cost_sum, currency, CAST(usage_start_time AS DATE) as cost_date, SUM(usage.amount) AS usage_amount, usage.unit AS usage_unit
                   FROM \`${gcp_config_bigquery.table_name}\`
-                  GROUP BY sku_description, service_description, cost_date, currency
+                  GROUP BY sku_description, service_description, cost_date, currency, usage.unit
                   ORDER BY cost_date ASC
                 )
                 WHERE cost_date >= "${startdate.format('YYYY-MM-DD')}" AND cost_date <= "${enddate.format(
@@ -79,9 +79,9 @@ export function handler(req: any, res: Response): Response {
             }
           } else {
             query = `
-            SELECT service.description AS service_description, sku.description AS sku_description, SUM(cost) AS cost_sum, currency, CAST(usage_start_time AS DATE) as cost_date
+            SELECT service.description AS service_description, sku.description AS sku_description, SUM(cost) AS cost_sum, currency, CAST(usage_start_time AS DATE) as cost_date, SUM(usage.amount) AS usage_amount, usage.unit AS usage_unit
             FROM \`${gcp_config_bigquery.table_name}\`
-            GROUP BY sku_description, service_description, cost_date, currency
+            GROUP BY sku_description, service_description, cost_date, currency, usage.unit
             ORDER BY cost_date ASC
             `;
           }
@@ -92,6 +92,7 @@ export function handler(req: any, res: Response): Response {
               job[0]
                 .getQueryResults()
                 .then((rows: any) => {
+                  console.log(rows[0][0]);
                   for (const row of rows[0]) {
                     row.cost_date = row.cost_date.value;
                   }
