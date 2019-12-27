@@ -92,7 +92,6 @@ export function handler(req: any, res: Response): Response {
               job[0]
                 .getQueryResults()
                 .then((rows: any) => {
-                  console.log(rows[0][0]);
                   for (const row of rows[0]) {
                     row.cost_date = row.cost_date.value;
                   }
